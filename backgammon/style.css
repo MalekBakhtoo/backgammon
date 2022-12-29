@@ -22,7 +22,7 @@ h1 {
     border-radius: 2%;
 }
 
-.block{
+.block {
     width: 2.8em;
     height: 2.8em;
     margin-top: 0.25em;
@@ -41,18 +41,15 @@ h1 {
 }
 
 .right {
-    display: inline-block;
-    min-width: 3em;
-    text-align: center;
-    margin-left: 0.25em;
+    display: flex;
+    flex-direction: row;
     
 }
 
 .left {
-    display: inline-block;
-    min-width: 3em;
-    text-align: center;
-    margin-right:0.25em;
+    display: flex;
+    flex-direction: row;
+    
 }
 
 .tl {
@@ -63,7 +60,7 @@ h1 {
 
 .tr {
     position: absolute;
-    right:7.3rem;
+    right: 7.3rem;
     top: 0.2rem;
 }
 
@@ -77,6 +74,18 @@ h1 {
     position: absolute;
     right: 7.3rem;
     bottom: 0.2em;
+}
+
+.col {
+    
+    min-width: 3em;
+    text-align: center;
+    margin-left: 0.25em;
+}
+.rev{
+    display: flex;
+    flex-direction: column-reverse;
+    
 }
 
 /* #bord div{

@@ -83,23 +83,58 @@ let c22 = new Stack();
 let c23 = new Stack();
 let c24 = new Stack();
 
-const bBlocks = [];
-const wBlock = [];
+bBlocks = new Stack();
+wBlock = new Stack();
 
 for (i = 0; i < 15; i++) {
     let blackBlock = document.createElement("img");
     blackBlock.setAttribute("src", "./images/bb.png");
     blackBlock.setAttribute("class", "block");
-    bBlocks.push(blackBlock);
+    bBlocks.add(blackBlock);
 
     let whiteBlock = document.createElement("img");
     whiteBlock.setAttribute("src", "./images/wb.png");
     whiteBlock.setAttribute("class", "block");
-    wBlock.push(whiteBlock);
+    wBlock.add(whiteBlock);
 
 }
-ct1.appendChild(wBlock[0]);
-ct1.appendChild(wBlock[1]);
-ct2.appendChild(wBlock[2]);
-ct3.appendChild(wBlock[3]);
-ct4.appendChild(wBlock[4]);
+function firstDesin() {
+    ct1.appendChild(wBlock.peek());
+    wBlock.remove();
+    ct1.appendChild(wBlock.peek());
+    wBlock.remove();
+
+    ct12.appendChild(wBlock.peek());
+    wBlock.remove();
+    ct12.appendChild(wBlock.peek());
+    wBlock.remove();
+    ct12.appendChild(wBlock.peek());
+    wBlock.remove();
+    ct12.appendChild(wBlock.peek());
+    wBlock.remove();
+    ct12.appendChild(wBlock.peek());
+    wBlock.remove();
+
+    ct19.appendChild(wBlock.peek());
+    wBlock.remove();
+    ct19.appendChild(wBlock.peek());
+    wBlock.remove();
+    ct19.appendChild(wBlock.peek());
+    wBlock.remove();
+    ct19.appendChild(wBlock.peek());
+    wBlock.remove();
+    ct19.appendChild(wBlock.peek());
+    wBlock.remove();
+
+    ct17.appendChild(wBlock.peek());
+    wBlock.remove();
+    ct17.appendChild(wBlock.peek());
+    wBlock.remove();
+    ct17.appendChild(wBlock.peek());
+    wBlock.remove();
+    
+
+
+
+}
+firstDesin();
