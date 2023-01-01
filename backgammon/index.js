@@ -82,6 +82,8 @@ let c21 = new Stack();
 let c22 = new Stack();
 let c23 = new Stack();
 let c24 = new Stack();
+const colStacks = [c1 ,c2, c3 ,c4 , c5 , c6 ,c7 , c8 , c9 , c10 , c11 , c12 , c13 , c14 , c15 , c16 , c17 , c18 , c19 , c20 , c21 , c22 , c23 ,c24];
+
 
 bBlocks = new Stack();
 wBlock = new Stack();
@@ -103,65 +105,92 @@ function firstDesin() {
     // white Block
 
     ct1.appendChild(wBlock.peek());
+    colStacks[0].add(wBlock.peek());
     wBlock.remove();
     ct1.appendChild(wBlock.peek());
+    colStacks[0].add(wBlock.peek());
     wBlock.remove();
 
     ct12.appendChild(wBlock.peek());
+    colStacks[11].add(wBlock.peek());
     wBlock.remove();
     ct12.appendChild(wBlock.peek());
+    colStacks[11].add(wBlock.peek());
     wBlock.remove();
     ct12.appendChild(wBlock.peek());
+    colStacks[11].add(wBlock.peek());
     wBlock.remove();
     ct12.appendChild(wBlock.peek());
+    colStacks[11].add(wBlock.peek());
     wBlock.remove();
     ct12.appendChild(wBlock.peek());
+    colStacks[11].add(wBlock.peek());
     wBlock.remove();
 
     ct19.appendChild(wBlock.peek());
+    colStacks[18].add(wBlock.peek());
     wBlock.remove();
     ct19.appendChild(wBlock.peek());
+    colStacks[118].add(wBlock.peek());
     wBlock.remove();
     ct19.appendChild(wBlock.peek());
+    colStacks[18].add(wBlock.peek());
     wBlock.remove();
     ct19.appendChild(wBlock.peek());
+    colStacks[18].add(wBlock.peek());
     wBlock.remove();
     ct19.appendChild(wBlock.peek());
+    colStacks[18].add(wBlock.peek());
     wBlock.remove();
 
     ct17.appendChild(wBlock.peek());
+    colStacks[16].add(wBlock.peek());
     wBlock.remove();
     ct17.appendChild(wBlock.peek());
+    colStacks[16].add(wBlock.peek());
     wBlock.remove();
     ct17.appendChild(wBlock.peek());
+    colStacks[16].add(wBlock.peek());
     wBlock.remove();
 
     //black block
     ct24.appendChild(bBlocks.peek());
+    colStacks[23].add(wBlock.peek());
     bBlocks.remove();
     ct24.appendChild(bBlocks.peek());
+    colStacks[23].add(wBlock.peek());
     bBlocks.remove();
 
     ct13.appendChild(bBlocks.peek());
+    colStacks[12].add(wBlock.peek());
     bBlocks.remove();
     ct13.appendChild(bBlocks.peek());
+    colStacks[12].add(wBlock.peek());
     bBlocks.remove();
     ct13.appendChild(bBlocks.peek());
+    colStacks[12].add(wBlock.peek());
     bBlocks.remove();
     ct13.appendChild(bBlocks.peek());
+    colStacks[12].add(wBlock.peek());
     bBlocks.remove();
     ct13.appendChild(bBlocks.peek());
+    colStacks[12].add(wBlock.peek());
     bBlocks.remove();
 
     ct6.appendChild(bBlocks.peek());
+    colStacks[5].add(wBlock.peek());
     bBlocks.remove();
     ct6.appendChild(bBlocks.peek());
+    colStacks[5].add(wBlock.peek());
     bBlocks.remove();
     ct6.appendChild(bBlocks.peek());
+    colStacks[5].add(wBlock.peek());
     bBlocks.remove();
     ct6.appendChild(bBlocks.peek());
+    colStacks[5].add(wBlock.peek());
     bBlocks.remove();
     ct6.appendChild(bBlocks.peek());
+    colStacks[5].add(wBlock.peek());
     bBlocks.remove();
 
     ct8.appendChild(bBlocks.peek());
@@ -203,10 +232,29 @@ document.getElementById("roll").addEventListener("click", () => {
 
 });
 
-function game (d1 , d2){
+function game(d1, d2) {
 
-    
 
+
+
+
+
+
+
+
+}
+
+function sugustiions(dice1, dice2, id) {
+    let col = document.getElementById(id);
+    let column = parseInt(id.slice(6));
+    let sugusts = new Stack();
+
+    if (dice1 == dice2) {
+
+        
+        
+        
+    }
 
 
 }
