@@ -99,6 +99,9 @@ for (i = 0; i < 15; i++) {
 
 }
 function firstDesin() {
+
+    // white Block
+
     ct1.appendChild(wBlock.peek());
     wBlock.remove();
     ct1.appendChild(wBlock.peek());
@@ -132,9 +135,78 @@ function firstDesin() {
     wBlock.remove();
     ct17.appendChild(wBlock.peek());
     wBlock.remove();
+
+    //black block
+    ct24.appendChild(bBlocks.peek());
+    bBlocks.remove();
+    ct24.appendChild(bBlocks.peek());
+    bBlocks.remove();
+
+    ct13.appendChild(bBlocks.peek());
+    bBlocks.remove();
+    ct13.appendChild(bBlocks.peek());
+    bBlocks.remove();
+    ct13.appendChild(bBlocks.peek());
+    bBlocks.remove();
+    ct13.appendChild(bBlocks.peek());
+    bBlocks.remove();
+    ct13.appendChild(bBlocks.peek());
+    bBlocks.remove();
+
+    ct6.appendChild(bBlocks.peek());
+    bBlocks.remove();
+    ct6.appendChild(bBlocks.peek());
+    bBlocks.remove();
+    ct6.appendChild(bBlocks.peek());
+    bBlocks.remove();
+    ct6.appendChild(bBlocks.peek());
+    bBlocks.remove();
+    ct6.appendChild(bBlocks.peek());
+    bBlocks.remove();
+
+    ct8.appendChild(bBlocks.peek());
+    bBlocks.remove();
+    ct8.appendChild(bBlocks.peek());
+    bBlocks.remove();
+    ct8.appendChild(bBlocks.peek());
+    bBlocks.remove();
+}
+firstDesin();
+
+function rollDice(id) {
+
+    let dice = document.getElementById(id);
+
+    let diceNum = 0;
+    let i = 0;
+    let interval = setInterval(() => {
+        let x = Math.floor((Math.random() * 6) + 1);
+        i++;
+        dice.setAttribute("src", "./images/dice/dice-" + x + ".png")
+
+        if (i == 30) {
+            clearInterval(interval);
+            diceNum = x;
+            console.log(diceNum);
+            return diceNum;
+        }
+
+    }, 50);
+}
+let d1;
+let d2;
+document.getElementById("roll").addEventListener("click", () => {
+    d1 = rollDice("d1");
+    d2 = rollDice("d2");
+
+
+
+});
+
+function game (d1 , d2){
+
     
 
 
 
 }
-firstDesin();

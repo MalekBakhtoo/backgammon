@@ -25,7 +25,7 @@ h1 {
 .block {
     width: 2.8em;
     height: 2.8em;
-    margin-top: 0.25em;
+    margin: 0.125em;
     display: block;
 
 }
@@ -43,13 +43,12 @@ h1 {
 .right {
     display: flex;
     flex-direction: row;
-    
 }
 
 .left {
     display: flex;
     flex-direction: row;
-    
+
 }
 
 .tl {
@@ -60,7 +59,7 @@ h1 {
 
 .tr {
     position: absolute;
-    right: 7.3rem;
+    right: 7.2rem;
     top: 0.2rem;
 }
 
@@ -72,22 +71,65 @@ h1 {
 
 .br {
     position: absolute;
-    right: 7.3rem;
+    right: 7.2rem;
     bottom: 0.2em;
 }
 
-.col {
-    
+.colr {
+
     min-width: 3em;
+    max-height: 14em;
     text-align: center;
-    margin-left: 0.25em;
-}
-.rev{
-    display: flex;
-    flex-direction: column-reverse;
-    
+    margin-left: 0.5em;
+
 }
 
-/* #bord div{
-     
-} */
+.coll {
+
+    min-width: 3em;
+    max-height: 14em;
+    text-align: center;
+    margin-right: 0.5em;
+
+}
+
+.rev {
+    display: flex;
+    flex-direction: column-reverse;
+
+}
+
+
+.diceSec {
+    position: absolute;
+    left: 43rem;
+    top: 18rem;
+    text-align: center;
+    height: fit-content;
+    width: fit-content;
+}
+
+.dice {
+    height: 2.5em;
+    width: 2.5em;
+    margin: 2.5px;
+    border-radius: 5%;
+    background-color: rgba(60, 30, 2, 0.735);
+    box-shadow: 0.2em 0.2em 0.3em rgba(0, 0, 0, 0.728);
+}
+.rollbtn{
+    position: absolute;
+    left: 29.2rem;
+    top: 19.4rem;
+    height: 2.7em;
+    width: 5.5em;
+    text-align: center;
+    margin-top: 1em;
+    border-radius: 5%;
+    background-color: rgb(84, 37, 10);
+    box-shadow: 0.1em 0.1em 0.3em rgba(0, 0, 0, 0.728);
+    cursor: pointer;
+}
+.rollbtn:hover{
+    box-shadow: inset 0.1em 0.1em 0.3em rgba(0, 0, 0, 0.728);
+}
