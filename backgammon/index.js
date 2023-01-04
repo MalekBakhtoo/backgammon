@@ -82,7 +82,7 @@ let c21 = new Stack();
 let c22 = new Stack();
 let c23 = new Stack();
 let c24 = new Stack();
-const colStacks = [c1 ,c2, c3 ,c4 , c5 , c6 ,c7 , c8 , c9 , c10 , c11 , c12 , c13 , c14 , c15 , c16 , c17 , c18 , c19 , c20 , c21 , c22 , c23 ,c24];
+const colStacks = [c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13, c14, c15, c16, c17, c18, c19, c20, c21, c22, c23, c24];
 
 
 bBlocks = new Stack();
@@ -91,11 +91,13 @@ wBlock = new Stack();
 for (i = 0; i < 15; i++) {
     let blackBlock = document.createElement("img");
     blackBlock.setAttribute("src", "./images/bb.png");
+    blackBlock.setAttribute("name", "black");
     blackBlock.setAttribute("class", "block");
     bBlocks.add(blackBlock);
 
     let whiteBlock = document.createElement("img");
     whiteBlock.setAttribute("src", "./images/wb.png");
+    blackBlock.setAttribute("name", "white");
     whiteBlock.setAttribute("class", "block");
     wBlock.add(whiteBlock);
 
@@ -131,7 +133,7 @@ function firstDesin() {
     colStacks[18].add(wBlock.peek());
     wBlock.remove();
     ct19.appendChild(wBlock.peek());
-    colStacks[118].add(wBlock.peek());
+    colStacks[18].add(wBlock.peek());
     wBlock.remove();
     ct19.appendChild(wBlock.peek());
     colStacks[18].add(wBlock.peek());
@@ -155,42 +157,42 @@ function firstDesin() {
 
     //black block
     ct24.appendChild(bBlocks.peek());
-    colStacks[23].add(wBlock.peek());
+    colStacks[23].add(bBlocks.peek());
     bBlocks.remove();
     ct24.appendChild(bBlocks.peek());
-    colStacks[23].add(wBlock.peek());
+    colStacks[23].add(bBlocks.peek());
     bBlocks.remove();
 
     ct13.appendChild(bBlocks.peek());
-    colStacks[12].add(wBlock.peek());
+    colStacks[12].add(bBlocks.peek());
     bBlocks.remove();
     ct13.appendChild(bBlocks.peek());
-    colStacks[12].add(wBlock.peek());
+    colStacks[12].add(bBlocks.peek());
     bBlocks.remove();
     ct13.appendChild(bBlocks.peek());
-    colStacks[12].add(wBlock.peek());
+    colStacks[12].add(bBlocks.peek());
     bBlocks.remove();
     ct13.appendChild(bBlocks.peek());
-    colStacks[12].add(wBlock.peek());
+    colStacks[12].add(bBlocks.peek());
     bBlocks.remove();
     ct13.appendChild(bBlocks.peek());
-    colStacks[12].add(wBlock.peek());
+    colStacks[12].add(bBlocks.peek());
     bBlocks.remove();
 
     ct6.appendChild(bBlocks.peek());
-    colStacks[5].add(wBlock.peek());
+    colStacks[5].add(bBlocks.peek());
     bBlocks.remove();
     ct6.appendChild(bBlocks.peek());
-    colStacks[5].add(wBlock.peek());
+    colStacks[5].add(bBlocks.peek());
     bBlocks.remove();
     ct6.appendChild(bBlocks.peek());
-    colStacks[5].add(wBlock.peek());
+    colStacks[5].add(bBlocks.peek());
     bBlocks.remove();
     ct6.appendChild(bBlocks.peek());
-    colStacks[5].add(wBlock.peek());
+    colStacks[5].add(bBlocks.peek());
     bBlocks.remove();
     ct6.appendChild(bBlocks.peek());
-    colStacks[5].add(wBlock.peek());
+    colStacks[5].add(bBlocks.peek());
     bBlocks.remove();
 
     ct8.appendChild(bBlocks.peek());
@@ -227,20 +229,9 @@ let d2;
 document.getElementById("roll").addEventListener("click", () => {
     d1 = rollDice("d1");
     d2 = rollDice("d2");
-
-
-
 });
 
 function game(d1, d2) {
-
-
-
-
-
-
-
-
 
 }
 
@@ -250,11 +241,27 @@ function sugustiions(dice1, dice2, id) {
     let sugusts = new Stack();
 
     if (dice1 == dice2) {
-
-        
-        
-        
+        let moves = new Stack();
+        for (i = dice1; i <= 4 * dice1; i += dice1) {
+            moves.add(i)
+        }
+        for (i = 0; i < moves.size(); i++) {
+            if (colStacks[moves.peek() + column - 1].size <= 1) {
+                sugusts.add(column + moves.peek());
+                moves.remove();
+            }
+        }
     }
-
-
+    else if (dice1 != dice2) {
+        if (colStacks[dice1 + column - 1].size <= 1) {
+            sugusts.add(column + dice1);
+        }
+        if (colStacks[dice2 + column - 1].size <= 1) {
+            sugusts.add(column + dice2);
+        }
+        if ((colStacks[dice1 + column - 1].size <= 1) && (colStacks[dice1 + dice2 + column - 1].size <= 1)) {
+            sugusts.add(column + dice1 + dice2);
+        }
+    }
+    return sugusts;
 }
