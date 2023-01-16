@@ -23,67 +23,55 @@ let ct22 = document.getElementById("culomn22");
 let ct23 = document.getElementById("culomn23");
 let ct24 = document.getElementById("culomn24");
 
-// program to implement stack data structure
+
 class Stack {
     constructor() {
         this.items = [];
     }
-    // add element to the stack
     add(element) {
         return this.items.push(element);
     }
-    // remove element from the stack
     remove() {
         if (this.items.length > 0) {
             return this.items.pop();
         }
     }
-    // view the last element
     peek() {
         return this.items[this.items.length - 1];
     }
-    // check if the stack is empty
+    pop() {
+        let l = this.peek();
+        this.remove();
+        return l;
+    }
     isEmpty() {
         return this.items.length == 0;
     }
-    // the size of the stack
     size() {
         return this.items.length;
     }
-    // empty the stack
+
     clear() {
         this.items = [];
     }
 }
+const colStacks = [];
+const colTags = [ct1, ct2, ct3, ct4, ct5, ct6, ct7, ct8, ct9, ct10, ct11, ct12, ct13, ct14, ct15, ct16, ct17, ct18, ct19, ct20, ct21, ct22, ct23, ct24]
+for (i = 0; i < 24; i++) {
+    s = new Stack();
+    colStacks.push(s);
+}
 
-//data structure
-
-let c1 = new Stack();
-let c2 = new Stack();
-let c3 = new Stack();
-let c4 = new Stack();
-let c5 = new Stack();
-let c6 = new Stack();
-let c7 = new Stack();
-let c8 = new Stack();
-let c9 = new Stack();
-let c10 = new Stack();
-let c11 = new Stack();
-let c12 = new Stack();
-let c13 = new Stack();
-let c14 = new Stack();
-let c15 = new Stack();
-let c16 = new Stack();
-let c17 = new Stack();
-let c18 = new Stack();
-let c19 = new Stack();
-let c20 = new Stack();
-let c21 = new Stack();
-let c22 = new Stack();
-let c23 = new Stack();
-let c24 = new Stack();
-const colStacks = [c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13, c14, c15, c16, c17, c18, c19, c20, c21, c22, c23, c24];
-
+let whiteT = true;
+let turn = "white";
+function turnSeter() {
+    if (whiteT) {
+        turn = "white";
+    }
+    else if (!whiteT) {
+        turn = "black";
+    }
+}
 
 bBlocks = new Stack();
 wBlock = new Stack();
@@ -100,168 +88,129 @@ for (i = 0; i < 15; i++) {
     blackBlock.setAttribute("name", "white");
     whiteBlock.setAttribute("class", "block");
     wBlock.add(whiteBlock);
-
 }
-function firstDesin() {
 
-    // white Block
-
-    ct1.appendChild(wBlock.peek());
-    colStacks[0].add(wBlock.peek());
-    wBlock.remove();
-    ct1.appendChild(wBlock.peek());
-    colStacks[0].add(wBlock.peek());
-    wBlock.remove();
-
-    ct12.appendChild(wBlock.peek());
-    colStacks[11].add(wBlock.peek());
-    wBlock.remove();
-    ct12.appendChild(wBlock.peek());
-    colStacks[11].add(wBlock.peek());
-    wBlock.remove();
-    ct12.appendChild(wBlock.peek());
-    colStacks[11].add(wBlock.peek());
-    wBlock.remove();
-    ct12.appendChild(wBlock.peek());
-    colStacks[11].add(wBlock.peek());
-    wBlock.remove();
-    ct12.appendChild(wBlock.peek());
-    colStacks[11].add(wBlock.peek());
-    wBlock.remove();
-
-    ct19.appendChild(wBlock.peek());
-    colStacks[18].add(wBlock.peek());
-    wBlock.remove();
-    ct19.appendChild(wBlock.peek());
-    colStacks[18].add(wBlock.peek());
-    wBlock.remove();
-    ct19.appendChild(wBlock.peek());
-    colStacks[18].add(wBlock.peek());
-    wBlock.remove();
-    ct19.appendChild(wBlock.peek());
-    colStacks[18].add(wBlock.peek());
-    wBlock.remove();
-    ct19.appendChild(wBlock.peek());
-    colStacks[18].add(wBlock.peek());
-    wBlock.remove();
-
-    ct17.appendChild(wBlock.peek());
-    colStacks[16].add(wBlock.peek());
-    wBlock.remove();
-    ct17.appendChild(wBlock.peek());
-    colStacks[16].add(wBlock.peek());
-    wBlock.remove();
-    ct17.appendChild(wBlock.peek());
-    colStacks[16].add(wBlock.peek());
-    wBlock.remove();
-
-    //black block
-    ct24.appendChild(bBlocks.peek());
-    colStacks[23].add(bBlocks.peek());
-    bBlocks.remove();
-    ct24.appendChild(bBlocks.peek());
-    colStacks[23].add(bBlocks.peek());
-    bBlocks.remove();
-
-    ct13.appendChild(bBlocks.peek());
-    colStacks[12].add(bBlocks.peek());
-    bBlocks.remove();
-    ct13.appendChild(bBlocks.peek());
-    colStacks[12].add(bBlocks.peek());
-    bBlocks.remove();
-    ct13.appendChild(bBlocks.peek());
-    colStacks[12].add(bBlocks.peek());
-    bBlocks.remove();
-    ct13.appendChild(bBlocks.peek());
-    colStacks[12].add(bBlocks.peek());
-    bBlocks.remove();
-    ct13.appendChild(bBlocks.peek());
-    colStacks[12].add(bBlocks.peek());
-    bBlocks.remove();
-
-    ct6.appendChild(bBlocks.peek());
-    colStacks[5].add(bBlocks.peek());
-    bBlocks.remove();
-    ct6.appendChild(bBlocks.peek());
-    colStacks[5].add(bBlocks.peek());
-    bBlocks.remove();
-    ct6.appendChild(bBlocks.peek());
-    colStacks[5].add(bBlocks.peek());
-    bBlocks.remove();
-    ct6.appendChild(bBlocks.peek());
-    colStacks[5].add(bBlocks.peek());
-    bBlocks.remove();
-    ct6.appendChild(bBlocks.peek());
-    colStacks[5].add(bBlocks.peek());
-    bBlocks.remove();
-
-    ct8.appendChild(bBlocks.peek());
-    bBlocks.remove();
-    ct8.appendChild(bBlocks.peek());
-    bBlocks.remove();
-    ct8.appendChild(bBlocks.peek());
-    bBlocks.remove();
-}
 firstDesin();
+function firstDesin() {
+    let item = [1, 12, 17, 19];
+    for (j = 0; j < 4; j++) {
+        if (item[j] == 1)
+            i = 2;
+        if (item[j] == 12 || item[j] == 19)
+            i = 5;
+        if (item[j] == 17)
+            i = 3;
+        for (l = 0; l < i; l++) {
+            colTags[item[j] - 1].appendChild(wBlock.peek());
+            colStacks[item[j] - 1].add(wBlock.peek());
+            wBlock.remove();
+            colTags[24 - item[j]].appendChild(bBlocks.peek());
+            colStacks[24 - item[j] - 2].add(bBlocks.peek());
+            bBlocks.remove();
+        }
+    }
+}
 
 function rollDice(id) {
-
     let dice = document.getElementById(id);
-
     let diceNum = 0;
     let i = 0;
     let interval = setInterval(() => {
         let x = Math.floor((Math.random() * 6) + 1);
         i++;
         dice.setAttribute("src", "./images/dice/dice-" + x + ".png")
-
         if (i == 30) {
             clearInterval(interval);
             diceNum = x;
             console.log(diceNum);
             return diceNum;
+            -0
         }
-
     }, 50);
 }
-let d1;
-let d2;
+
+const diceValues = [];
+
 document.getElementById("roll").addEventListener("click", () => {
-    d1 = rollDice("d1");
-    d2 = rollDice("d2");
+    let d1 = rollDice("d1");
+    let d2 = rollDice("d2");
+    if (d1 == d2) {
+        for (let i = 0; i < 4; i++) {
+            diceValues.push(d1);
+        }
+    }
+    else {
+        diceValues.push(d1);
+        diceValues.push(d2);
+    }
 });
 
-function game(d1, d2) {
 
-}
 
-function sugustiions(dice1, dice2, id) {
+function sugustiions(id) {
+
     let col = document.getElementById(id);
     let column = parseInt(id.slice(6));
     let sugusts = new Stack();
 
-    if (dice1 == dice2) {
-        let moves = new Stack();
-        for (i = dice1; i <= 4 * dice1; i += dice1) {
-            moves.add(i)
-        }
-        for (i = 0; i < moves.size(); i++) {
-            if (colStacks[moves.peek() + column - 1].size <= 1) {
-                sugusts.add(column + moves.peek());
-                moves.remove();
+    if (diceValues.length == 2) {
+        let dic1 = diceValues[0];
+        let dic2 = diceValues[1]
+        sugusts.add(dic1);
+        sugusts.add(dic2);
+        sugusts.add(dic1 + dic2);
+    }
+    if (diceValues.length == 4) {
+        for (let i = 1; i < 4; i++) {
+            let sum = 0;
+            for (let j = 0; j < i; j++) {
+                sum += diceValues[0];
             }
+            sugusts.add(sum);
         }
     }
-    else if (dice1 != dice2) {
-        if (colStacks[dice1 + column - 1].size <= 1) {
-            sugusts.add(column + dice1);
-        }
-        if (colStacks[dice2 + column - 1].size <= 1) {
-            sugusts.add(column + dice2);
-        }
-        if ((colStacks[dice1 + column - 1].size <= 1) && (colStacks[dice1 + dice2 + column - 1].size <= 1)) {
-            sugusts.add(column + dice1 + dice2);
+    let colsug = [];
+    for (let i = 0; i < sugusts.size(); i++) {
+        destcol = document.getElementById("culomn" + (column + sugusts.pop()));
+        if (destcol.children.length <= 1) {
+            colsug.push(destcol);
         }
     }
-    return sugusts;
+    return { "originColumn": col, "validColumns": colsug };
 }
+
+function setSegustion(sugs) {
+    for (i = 0; i < sugs["validColumns"].length; i++) {
+        sugs["valicColumns"][i].classlist.add("sugustCol");
+    }
+}
+function removeSegustions() {
+    for (i = 0; i < 24; i++) {
+        colTags[i].classList.remove("sugustCol");
+    }
+}
+
+function moveBlock(id, validCols) {
+    let destColNum = parseInt(id.slice(6));
+    let orgColNum = parseInt(validCols["originColumn"].id.slice(6));
+    let MovedBlock = colStacks[orgColNum - 1].pop();
+    colStacks[destColNum - 1].add(MovedBlock);
+    colTags[destColNum - 1].appendChild(MovedBlock);
+}
+
+
+for (let i = 0; i < 24; i++) {
+    colTags[i].addEventListener("click", (e) => {
+        let sugsts = sugustiions(e.target.id);
+        if(!(colTags[i].classList.contains("sugustCol"))){
+            removeSegustions();
+            setSegustion(sugsts);
+        }
+        if(colTags[i].classList.contains("sugustCol")){
+            moveBlock(e.target.id , sugstsst);
+        }
+    });
+
+}
+
+

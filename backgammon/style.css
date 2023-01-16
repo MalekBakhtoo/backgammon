@@ -136,7 +136,11 @@ h1 {
 
 .sugustCol{
 
-    border-top:10px rgb(21, 235, 21);
+    /* border-bottom:5px rgb(21, 235, 21) solid; */
+    background-color:rgb(21, 235, 21) ;
+    border-radius: 20%;
+    
+
 
 }
 
