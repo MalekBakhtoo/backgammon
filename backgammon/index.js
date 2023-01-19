@@ -1,3 +1,10 @@
+let whiteT = true;
+let turn = "white";
+const colStacks = [];
+const diceValues = [];
+let sugsts;
+
+
 let ct1 = document.getElementById("culomn1");
 let ct2 = document.getElementById("culomn2");
 let ct3 = document.getElementById("culomn3");
@@ -40,10 +47,13 @@ class Stack {
         return this.items[this.items.length - 1];
     }
     pop() {
-        let l = this.peek();
-        this.remove();
-        return l;
+
+        if (this.items.length > 0) {
+            return this.items.pop();
+
+        }
     }
+
     isEmpty() {
         return this.items.length == 0;
     }
@@ -55,15 +65,13 @@ class Stack {
         this.items = [];
     }
 }
-const colStacks = [];
+bBlocks = new Stack();
+wBlock = new Stack();
 const colTags = [ct1, ct2, ct3, ct4, ct5, ct6, ct7, ct8, ct9, ct10, ct11, ct12, ct13, ct14, ct15, ct16, ct17, ct18, ct19, ct20, ct21, ct22, ct23, ct24]
 for (i = 0; i < 24; i++) {
     s = new Stack();
     colStacks.push(s);
 }
-
-let whiteT = true;
-let turn = "white";
 function turnSeter() {
     if (whiteT) {
         turn = "white";
@@ -72,10 +80,6 @@ function turnSeter() {
         turn = "black";
     }
 }
-
-bBlocks = new Stack();
-wBlock = new Stack();
-
 for (i = 0; i < 15; i++) {
     let blackBlock = document.createElement("img");
     blackBlock.setAttribute("src", "./images/bb.png");
@@ -85,11 +89,10 @@ for (i = 0; i < 15; i++) {
 
     let whiteBlock = document.createElement("img");
     whiteBlock.setAttribute("src", "./images/wb.png");
-    blackBlock.setAttribute("name", "white");
+    whiteBlock.setAttribute("name", "white");
     whiteBlock.setAttribute("class", "block");
     wBlock.add(whiteBlock);
 }
-
 firstDesin();
 function firstDesin() {
     let item = [1, 12, 17, 19];
@@ -110,10 +113,9 @@ function firstDesin() {
         }
     }
 }
-
 function rollDice(id) {
     let dice = document.getElementById(id);
-    let diceNum = 0;
+    let diceNum = Math.floor((Math.random() * 6) + 1);
     let i = 0;
     let interval = setInterval(() => {
         let x = Math.floor((Math.random() * 6) + 1);
@@ -121,16 +123,12 @@ function rollDice(id) {
         dice.setAttribute("src", "./images/dice/dice-" + x + ".png")
         if (i == 30) {
             clearInterval(interval);
-            diceNum = x;
-            console.log(diceNum);
-            return diceNum;
-            -0
+            dice.setAttribute("src", "./images/dice/dice-" + diceNum + ".png")
+
         }
     }, 50);
+    return diceNum;
 }
-
-const diceValues = [];
-
 document.getElementById("roll").addEventListener("click", () => {
     let d1 = rollDice("d1");
     let d2 = rollDice("d2");
@@ -144,73 +142,103 @@ document.getElementById("roll").addEventListener("click", () => {
         diceValues.push(d2);
     }
 });
+function sugustions(id) {
 
-
-
-function sugustiions(id) {
 
     let col = document.getElementById(id);
     let column = parseInt(id.slice(6));
-    let sugusts = new Stack();
-
+    let colsug = [];
     if (diceValues.length == 2) {
-        let dic1 = diceValues[0];
-        let dic2 = diceValues[1]
-        sugusts.add(dic1);
-        sugusts.add(dic2);
-        sugusts.add(dic1 + dic2);
-    }
-    if (diceValues.length == 4) {
-        for (let i = 1; i < 4; i++) {
-            let sum = 0;
-            for (let j = 0; j < i; j++) {
-                sum += diceValues[0];
+        if (diceValues[0] + column <= 24) {
+            destcol = colTags[diceValues[0] + column - 1];
+            if (destcol.children.length <= 1) {
+                colsug.push(destcol);
             }
-            sugusts.add(sum);
+        }
+        if (diceValues[1] + column <= 24) {
+            destcol = colTags[diceValues[1] + column - 1];
+            if (destcol.children.length <= 1) {
+                colsug.push(destcol);
+            }
+        }
+        if (diceValues[0] + diceValues[1] + column <= 24) {
+            destcol = colTags[diceValues[0] + diceValues[1] + column - 1];
+            if (destcol.children.length <= 1) {
+                colsug.push(destcol);
+            }
         }
     }
-    let colsug = [];
-    for (let i = 0; i < sugusts.size(); i++) {
-        destcol = document.getElementById("culomn" + (column + sugusts.pop()));
-        if (destcol.children.length <= 1) {
-            colsug.push(destcol);
+    if (diceValues.length == 4) {
+        for (let i = 1; i <= 4; i++) {
+            let sum = 0;
+            for (let j = 0; j < i; j++) {
+                sum += diceValues[j];
+            }
+            if (sum + column <= 24) {
+                destcol = colTags[sum + column - 1];
+                if (destcol.children.length <= 1) {
+                    colsug.push(destcol);
+                }
+            }
         }
     }
     return { "originColumn": col, "validColumns": colsug };
 }
-
 function setSegustion(sugs) {
     for (i = 0; i < sugs["validColumns"].length; i++) {
-        sugs["valicColumns"][i].classlist.add("sugustCol");
+        sugs["validColumns"][i].children[0].classList.add("sugustCol");
     }
 }
 function removeSegustions() {
     for (i = 0; i < 24; i++) {
-        colTags[i].classList.remove("sugustCol");
+        colTags[i].children[0].classList.remove("sugustCol");
     }
 }
-
 function moveBlock(id, validCols) {
     let destColNum = parseInt(id.slice(6));
     let orgColNum = parseInt(validCols["originColumn"].id.slice(6));
-    let MovedBlock = colStacks[orgColNum - 1].pop();
+    let MovedBlock = blockMaker();
     colStacks[destColNum - 1].add(MovedBlock);
-    colTags[destColNum - 1].appendChild(MovedBlock);
+    validCols["originColumn"].removeChild(validCols["originColumn"].children[1]);
+    document.getElementById(id).appendChild(MovedBlock);
 }
-
-
+function blockMaker() {
+    if (whiteT) {
+        let whiteBlock = document.createElement("img");
+        whiteBlock.setAttribute("src", "./images/wb.png");
+        whiteBlock.setAttribute("name", "white");
+        whiteBlock.setAttribute("class", "block");
+        return whiteBlock;
+    }
+    else {
+        let blackBlock = document.createElement("img");
+        blackBlock.setAttribute("src", "./images/bb.png");
+        blackBlock.setAttribute("name", "black");
+        blackBlock.setAttribute("class", "block");
+        return blackBlock;
+    }
+}
 for (let i = 0; i < 24; i++) {
     colTags[i].addEventListener("click", (e) => {
-        let sugsts = sugustiions(e.target.id);
-        if(!(colTags[i].classList.contains("sugustCol"))){
-            removeSegustions();
-            setSegustion(sugsts);
+        let id = e.target.id;
+        if (id == '') {
+            id = e.target.parentNode.id;
         }
-        if(colTags[i].classList.contains("sugustCol")){
-            moveBlock(e.target.id , sugstsst);
+        let col = document.getElementById(id);
+        
+        
+        if (!(col.children[0].classList.contains("sugustCol"))) {
+            if(col.children.length >=2 ){
+                if(col.children[1].getAttribute("name") == turn){
+                    sugsts = sugustions(id);
+                    removeSegustions();
+                    setSegustion(sugsts);
+                }
+            }
+        }
+        else {
+            moveBlock(id, sugsts);
+            removeSegustions();
         }
     });
-
 }
-
-
