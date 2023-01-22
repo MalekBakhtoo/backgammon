@@ -1,7 +1,8 @@
 let whiteT = true;
 let turn = "white";
+let noturn = "black";
 const colStacks = [];
-const diceValues = [];
+let diceValues = [];
 let sugsts;
 
 
@@ -29,6 +30,7 @@ let ct21 = document.getElementById("culomn21");
 let ct22 = document.getElementById("culomn22");
 let ct23 = document.getElementById("culomn23");
 let ct24 = document.getElementById("culomn24");
+let ct25 = document.getElementById("out");
 
 
 class Stack {
@@ -67,17 +69,36 @@ class Stack {
 }
 bBlocks = new Stack();
 wBlock = new Stack();
-const colTags = [ct1, ct2, ct3, ct4, ct5, ct6, ct7, ct8, ct9, ct10, ct11, ct12, ct13, ct14, ct15, ct16, ct17, ct18, ct19, ct20, ct21, ct22, ct23, ct24]
+const colTags = [ct1, ct2, ct3, ct4, ct5, ct6, ct7, ct8, ct9, ct10, ct11, ct12, ct13, ct14, ct15, ct16, ct17, ct18, ct19, ct20, ct21, ct22, ct23, ct24];
 for (i = 0; i < 24; i++) {
     s = new Stack();
     colStacks.push(s);
 }
-function turnSeter() {
+function turnSeter(valid) {
+    let c = 0;
+    let j = 0;
+    for (let i of colTags) {
+        if (i.children.length >= 2) {
+            if (i.children[1].getAttribute("name") == turn) {
+                c++;
+                if (sugustions(i.id)["validColumns"].length == 0) {
+                    j++;
+                }
+            }
+        }
+    }
+    if (j == c) {
+        whiteT = !whiteT;
+        document.getElementById("roll").disabled = false;
+    }
+
     if (whiteT) {
         turn = "white";
+        noturn = "black";
     }
     else if (!whiteT) {
         turn = "black";
+        noturn = "white";
     }
 }
 for (i = 0; i < 15; i++) {
@@ -130,6 +151,7 @@ function rollDice(id) {
     return diceNum;
 }
 document.getElementById("roll").addEventListener("click", () => {
+    diceValues = [];
     let d1 = rollDice("d1");
     let d2 = rollDice("d2");
     if (d1 == d2) {
@@ -141,43 +163,83 @@ document.getElementById("roll").addEventListener("click", () => {
         diceValues.push(d1);
         diceValues.push(d2);
     }
+    document.getElementById("roll").disabled = true;
 });
 function sugustions(id) {
-
 
     let col = document.getElementById(id);
     let column = parseInt(id.slice(6));
     let colsug = [];
-    if (diceValues.length == 2) {
-        if (diceValues[0] + column <= 24) {
-            destcol = colTags[diceValues[0] + column - 1];
-            if (destcol.children.length <= 1) {
-                colsug.push(destcol);
-            }
-        }
-        if (diceValues[1] + column <= 24) {
-            destcol = colTags[diceValues[1] + column - 1];
-            if (destcol.children.length <= 1) {
-                colsug.push(destcol);
-            }
-        }
-        if (diceValues[0] + diceValues[1] + column <= 24) {
-            destcol = colTags[diceValues[0] + diceValues[1] + column - 1];
-            if (destcol.children.length <= 1) {
-                colsug.push(destcol);
-            }
-        }
-    }
-    if (diceValues.length == 4) {
-        for (let i = 1; i <= 4; i++) {
-            let sum = 0;
-            for (let j = 0; j < i; j++) {
-                sum += diceValues[j];
-            }
-            if (sum + column <= 24) {
-                destcol = colTags[sum + column - 1];
-                if (destcol.children.length <= 1) {
+    let out = 24;
+    if (couldOut) { out = 25; }
+
+    if (whiteT) {
+        if (diceValues.length == 2) {
+            if (diceValues[0] + column <= 24) {
+                destcol = colTags[diceValues[0] + column - 1];
+                if ((destcol.children.length <= 2 || (destcol.children[1].getAttribute("name") == turn)) && diceValues[0] != 0) {
                     colsug.push(destcol);
+                }
+            }
+            if (diceValues[1] + column <= 24) {
+                destcol = colTags[diceValues[1] + column - 1];
+                if ((destcol.children.length <= 2 || (destcol.children[1].getAttribute("name") == turn)) && diceValues[1] != 0) {
+                    colsug.push(destcol);
+                }
+            }
+            if (diceValues[0] + diceValues[1] + column <= 24) {
+                destcol = colTags[diceValues[0] + diceValues[1] + column - 1];
+                if ((destcol.children.length <= 2 || (destcol.children[1].getAttribute("name") == turn)) && diceValues[0] + diceValues[1] != 0) {
+                    colsug.push(destcol);
+                }
+            }
+        }
+        if (diceValues.length == 4) {
+            for (let i = 1; i <= 4; i++) {
+                let sum = 0;
+                for (let j = 0; j < i; j++) {
+                    sum += diceValues[j];
+                }
+                if (sum + column <= 24) {
+                    destcol = colTags[sum + column - 1];
+                    if ((destcol.children.length <= 2 || (destcol.children[1].getAttribute("name") == turn)) && col != destcol) {
+                        colsug.push(destcol);
+                    }
+                }
+            }
+        }
+    } else {
+        if (diceValues.length == 2) {
+            if (column - diceValues[0] >= 1) {
+                destcol = colTags[column - 1 - diceValues[0]];
+                if ((destcol.children.length <= 2 || (destcol.children[1].getAttribute("name") == turn)) && diceValues[0] != 0) {
+                    colsug.push(destcol);
+                }
+            }
+            if (column - diceValues[1] >= 1) {
+                destcol = colTags[column - 1 - diceValues[1]];
+                if ((destcol.children.length <= 2 || (destcol.children[1].getAttribute("name") == turn)) && diceValues[1] != 0) {
+                    colsug.push(destcol);
+                }
+            }
+            if (column - diceValues[0] - diceValues[1] >= 1) {
+                destcol = colTags[column - diceValues[0] - diceValues[1] - 1];
+                if ((destcol.children.length <= 2 || (destcol.children[1].getAttribute("name") == turn)) && diceValues[0] + diceValues[1] != 0) {
+                    colsug.push(destcol);
+                }
+            }
+        }
+        if (diceValues.length == 4) {
+            for (let i = 1; i <= 4; i++) {
+                let sum = 0;
+                for (let j = 0; j < i; j++) {
+                    sum += diceValues[j];
+                }
+                if (column -1 >= 1) {
+                    destcol = colTags[column - sum - 1];
+                    if ((destcol.children.length <= 2 || (destcol.children[1].getAttribute("name") == turn)) && col != destcol) {
+                        colsug.push(destcol);
+                    }
                 }
             }
         }
@@ -199,8 +261,19 @@ function moveBlock(id, validCols) {
     let orgColNum = parseInt(validCols["originColumn"].id.slice(6));
     let MovedBlock = blockMaker();
     colStacks[destColNum - 1].add(MovedBlock);
-    validCols["originColumn"].removeChild(validCols["originColumn"].children[1]);
-    document.getElementById(id).appendChild(MovedBlock);
+    validCols["originColumn"].removeChild(validCols["originColumn"].lastElementChild);
+
+    let destcol = document.getElementById(id);
+
+    if (destcol.children.length == 2) {
+        if (destcol.children[1].getAttribute("name") == noturn) {
+            outBlock = destcol.children[1];
+            destcol.removeChild(outBlock);
+            document.getElementById(noturn + "-out").appendChild(outBlock);
+        }
+
+    }
+    destcol.appendChild(MovedBlock);
 }
 function blockMaker() {
     if (whiteT) {
@@ -218,6 +291,53 @@ function blockMaker() {
         return blackBlock;
     }
 }
+function diceValueHandler(originId, destinationId) {
+    let orgNum = parseInt(originId.slice(6));
+    let desNum = parseInt(destinationId.slice(6));
+
+    let dif = Math.abs(desNum - orgNum);
+
+
+    if (diceValues.length == 2) {
+        if (diceValues[0] == dif) { diceValues[0] = 0; }
+        else if (diceValues[1] == dif) { diceValues[1] = 0; }
+        else if (diceValues[0] + diceValues[1] == dif) {
+            diceValues[0] = 0;
+            diceValues[1] = 0;
+        }
+    }
+    else if (diceValues.length == 4) {
+        if (diceValues[0] == dif) { diceValues[0] = 0; }
+        else if (diceValues[1] == dif) { diceValues[1] = 0; }
+        else if (diceValues[2] == dif) { diceValues[2] = 0; }
+        else if (diceValues[3] == dif) { diceValues[3] = 0; }
+        else if (diceValues[0] + diceValues[1] == dif) {
+            diceValues[0] = 0;
+            diceValues[1] = 0;
+        }
+        else if (diceValues[0] + diceValues[1] + diceValues[2] == dif) {
+            diceValues[0] = 0;
+            diceValues[1] = 0;
+            diceValues[2] = 0;
+        }
+        else if (diceValues[0] + diceValues[1] + diceValues[2] + diceValues[3] == dif) {
+            diceValues[0] = 0;
+            diceValues[1] = 0;
+            diceValues[2] = 0;
+            diceValues[3] = 0;
+        }
+    }
+}
+function couldOut() {
+    for (i = 0; i < 18; i++) {
+        if (colTags[i].chilsren.length > 1) {
+            if (colTags[i].children[0].getAttribute("name") == turn) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
 for (let i = 0; i < 24; i++) {
     colTags[i].addEventListener("click", (e) => {
         let id = e.target.id;
@@ -225,11 +345,9 @@ for (let i = 0; i < 24; i++) {
             id = e.target.parentNode.id;
         }
         let col = document.getElementById(id);
-        
-        
         if (!(col.children[0].classList.contains("sugustCol"))) {
-            if(col.children.length >=2 ){
-                if(col.children[1].getAttribute("name") == turn){
+            if (col.children.length >= 2) {
+                if (col.children[1].getAttribute("name") == turn) {
                     sugsts = sugustions(id);
                     removeSegustions();
                     setSegustion(sugsts);
@@ -237,8 +355,31 @@ for (let i = 0; i < 24; i++) {
             }
         }
         else {
-            moveBlock(id, sugsts);
-            removeSegustions();
+            if (col.children.length == 1) {
+                moveBlock(id, sugsts);
+                removeSegustions();
+                diceValueHandler(sugsts["originColumn"].id, id);
+            }
+            else if (col.children.length == 2) {
+                if (col.children[1].getAttribute("name") == noturn) {
+                    moveBlock(id, sugsts);
+                    removeSegustions();
+                    // sugsts["originColumn"].removeChild(sugsts["originColumn"].children[1]);
+                    diceValueHandler(sugsts["originColumn"].id, id);
+                } else {
+                    moveBlock(id, sugsts);
+                    removeSegustions();
+                    diceValueHandler(sugsts["originColumn"].id, id);
+                }
+            }
+            else {
+                if (col.children[1].getAttribute("name") == turn) {
+                    moveBlock(id, sugsts);
+                    removeSegustions();
+                    diceValueHandler(sugsts["originColumn"].id, id);
+                }
+            }
+            turnSeter();
         }
     });
 }
