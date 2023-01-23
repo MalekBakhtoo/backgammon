@@ -30,8 +30,6 @@ let ct21 = document.getElementById("culomn21");
 let ct22 = document.getElementById("culomn22");
 let ct23 = document.getElementById("culomn23");
 let ct24 = document.getElementById("culomn24");
-let ct25 = document.getElementById("out");
-
 
 class Stack {
     constructor() {
@@ -170,8 +168,14 @@ function sugustions(id) {
     let col = document.getElementById(id);
     let column = parseInt(id.slice(6));
     let colsug = [];
-    let out = 24;
-    if (couldOut) { out = 25; }
+
+    //out conditions
+    if (couldOut(id)) {
+        document.getElementById("OUT").classList.add("outSug");
+    } else {
+        document.getElementById("OUT").classList.remove("outSug");
+    }
+
 
     if (whiteT) {
         if (diceValues.length == 2) {
@@ -235,7 +239,7 @@ function sugustions(id) {
                 for (let j = 0; j < i; j++) {
                     sum += diceValues[j];
                 }
-                if (column -1 >= 1) {
+                if (column - sum >= 1) {
                     destcol = colTags[column - sum - 1];
                     if ((destcol.children.length <= 2 || (destcol.children[1].getAttribute("name") == turn)) && col != destcol) {
                         colsug.push(destcol);
@@ -328,15 +332,48 @@ function diceValueHandler(originId, destinationId) {
         }
     }
 }
-function couldOut() {
-    for (i = 0; i < 18; i++) {
-        if (colTags[i].chilsren.length > 1) {
-            if (colTags[i].children[0].getAttribute("name") == turn) {
-                return false;
+function couldOut(id) {
+
+    let col = parseInt(id.slice(6));
+    let val = -5;
+    if (whiteT) {
+        for (i = 0; i < 18; i++) {
+            if (colTags[i].children.length > 1) {
+                if (colTags[i].children[1].getAttribute("name") == turn) {
+                    return false;
+                }
+            }
+        }
+        if (diceValues[0] + col == 25 || diceValues[1] + col == 25 || diceValues[0] + diceValues[1] + col == 25) { return true; }
+        for (let i = 1; i <= 4; i++) {
+            let sum = 0;
+            for (let j = 0; j < i; j++) {
+                sum += diceValues[j];
+            }
+            if (col + sum == 25) {
+                return true;
             }
         }
     }
-    return true;
+    else {
+        for(i = 23; i > 6; i--) {
+            if (colTags[i].children.length > 1) {
+                if (colTags[i].children[1].getAttribute("name") == turn) {
+                    return false;
+                }
+            }
+        }
+        if (col - diceValues[0] == 0 || col - diceValues[1] == 0 || col - diceValues[0] - diceValues[1] == 0) { return true; }
+        for (let i = 1; i <= 4; i++) {
+            let sum = 0;
+            for (let j = 0; j < i; j++) {
+                sum += diceValues[j];
+            }
+            if (col - sum == 0) {
+                return true;
+            }
+        }
+    }
 }
 for (let i = 0; i < 24; i++) {
     colTags[i].addEventListener("click", (e) => {
@@ -382,4 +419,26 @@ for (let i = 0; i < 24; i++) {
             turnSeter();
         }
     });
+}
+let outedBlockW = new Stack();
+let outedBlockB = new Stack();
+function outBlock(col) {
+    if (col.children.length > 1) {
+        if (whiteT) {
+            outedBlockW.add(col.children[1]);
+        } else {
+            outedBlockB.add(col.children[1]);
+        }
+        col.removeChild(col.children[1]);
+    }
+}
+function findWinner(){
+    if(outedBlockW.size()==15){
+        window.alert("white win !!");
+        return true;
+    }else if(outedBlockB.siz()==15){
+        window.alert("black win !!");
+        return true;
+    }
+    return false;
 }
