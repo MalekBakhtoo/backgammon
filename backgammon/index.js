@@ -67,6 +67,8 @@ class Stack {
 }
 bBlocks = new Stack();
 wBlock = new Stack();
+const colStacks = [];
+let diceValues = [];
 const colTags = [ct1, ct2, ct3, ct4, ct5, ct6, ct7, ct8, ct9, ct10, ct11, ct12, ct13, ct14, ct15, ct16, ct17, ct18, ct19, ct20, ct21, ct22, ct23, ct24];
 for (i = 0; i < 24; i++) {
     s = new Stack();
