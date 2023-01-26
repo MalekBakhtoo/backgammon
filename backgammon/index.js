@@ -1,10 +1,9 @@
 let whiteT = true;
 let turn = "white";
 let noturn = "black";
-const colStacks = [];
-let diceValues = [];
-let sugsts;
 
+let sugsts;
+let outBtn = document.getElementById("OUT");
 
 let ct1 = document.getElementById("culomn1");
 let ct2 = document.getElementById("culomn2");
@@ -30,6 +29,7 @@ let ct21 = document.getElementById("culomn21");
 let ct22 = document.getElementById("culomn22");
 let ct23 = document.getElementById("culomn23");
 let ct24 = document.getElementById("culomn24");
+
 
 class Stack {
     constructor() {
@@ -79,7 +79,7 @@ function turnSeter(valid) {
         if (i.children.length >= 2) {
             if (i.children[1].getAttribute("name") == turn) {
                 c++;
-                if (sugustions(i.id)["validColumns"].length == 0) {
+                if (sugustions(i.id)["validColumns"].length == 0 && !(outBtn.classList.contains("outSug")) ) {
                     j++;
                 }
             }
@@ -112,7 +112,7 @@ for (i = 0; i < 15; i++) {
     whiteBlock.setAttribute("class", "block");
     wBlock.add(whiteBlock);
 }
-firstDesin();
+// firstDesin();
 function firstDesin() {
     let item = [1, 12, 17, 19];
     for (j = 0; j < 4; j++) {
@@ -169,12 +169,7 @@ function sugustions(id) {
     let column = parseInt(id.slice(6));
     let colsug = [];
 
-    //out conditions
-    if (couldOut(id)) {
-        document.getElementById("OUT").classList.add("outSug");
-    } else {
-        document.getElementById("OUT").classList.remove("outSug");
-    }
+
 
 
     if (whiteT) {
@@ -260,6 +255,21 @@ function removeSegustions() {
         colTags[i].children[0].classList.remove("sugustCol");
     }
 }
+function insertBlock(orgcol, destcol) {
+    let MovedBlock = blockMaker();
+
+    if (destcol.children.length == 2) {
+        if (destcol.children[1].getAttribute("name") == noturn) {
+            let outBlock = destcol.children[1];
+            destcol.removeChild(outBlock);
+            document.getElementById(noturn + "-out").appendChild(outBlock);
+        }
+
+    }
+    orgcol.removeChild(orgcol.lastElementChild);
+    destcol.appendChild(MovedBlock);
+
+}
 function moveBlock(id, validCols) {
     let destColNum = parseInt(id.slice(6));
     let orgColNum = parseInt(validCols["originColumn"].id.slice(6));
@@ -271,7 +281,7 @@ function moveBlock(id, validCols) {
 
     if (destcol.children.length == 2) {
         if (destcol.children[1].getAttribute("name") == noturn) {
-            outBlock = destcol.children[1];
+            let outBlock = destcol.children[1];
             destcol.removeChild(outBlock);
             document.getElementById(noturn + "-out").appendChild(outBlock);
         }
@@ -335,7 +345,6 @@ function diceValueHandler(originId, destinationId) {
 function couldOut(id) {
 
     let col = parseInt(id.slice(6));
-    let val = -5;
     if (whiteT) {
         for (i = 0; i < 18; i++) {
             if (colTags[i].children.length > 1) {
@@ -356,7 +365,7 @@ function couldOut(id) {
         }
     }
     else {
-        for(i = 23; i > 6; i--) {
+        for (i = 23; i > 6; i--) {
             if (colTags[i].children.length > 1) {
                 if (colTags[i].children[1].getAttribute("name") == turn) {
                     return false;
@@ -375,54 +384,76 @@ function couldOut(id) {
         }
     }
 }
+let outedBlockW = new Stack();
+let outedBlockB = new Stack();
 for (let i = 0; i < 24; i++) {
     colTags[i].addEventListener("click", (e) => {
         let id = e.target.id;
         if (id == '') {
             id = e.target.parentNode.id;
         }
-        let col = document.getElementById(id);
-        if (!(col.children[0].classList.contains("sugustCol"))) {
-            if (col.children.length >= 2) {
-                if (col.children[1].getAttribute("name") == turn) {
-                    sugsts = sugustions(id);
+        if (!findWinner()) {
+            let col = document.getElementById(id);
+            let blackout = document.getElementById("black-out");
+            let whiteout = document.getElementById("white-out");
+
+            if (blackout.children.length > 0 && !whiteT) {
+
+                sugsts = sugustions("column25");
+                removeSegustions();
+                setSegustion(sugsts);
+                if ((col.children[0].classList.contains("sugustCol"))) {
+                    insertBlock(blackout, col);
                     removeSegustions();
-                    setSegustion(sugsts);
+                    diceValueHandler("column25", id);
+
                 }
             }
-        }
-        else {
-            if (col.children.length == 1) {
+            else if (whiteout.children.length > 0 && whiteT) {
+
+                sugsts = sugustions("column0");
+                removeSegustions();
+                setSegustion(sugsts);
+                if ((col.children[0].classList.contains("sugustCol"))) {
+                    insertBlock(whiteout, col);
+                    removeSegustions();
+                    diceValueHandler("column0", id);
+                }
+            }
+
+            else if (!(col.children[0].classList.contains("sugustCol"))) {
+                if (col.children.length >= 2) {
+                    if (col.children[1].getAttribute("name") == turn) {
+                        //out conditions
+                        if (couldOut(id) && col.children[1].getAttribute("name") == turn) {
+                            document.getElementById("OUT").classList.add("outSug");
+                        } else {
+                            document.getElementById("OUT").classList.remove("outSug");
+                        }
+                        sugsts = sugustions(id);
+                        removeSegustions();
+                        setSegustion(sugsts);
+                    }
+                }
+            }
+            else if ((col.children[0].classList.contains("sugustCol"))) {
                 moveBlock(id, sugsts);
                 removeSegustions();
+                turnSeter();
                 diceValueHandler(sugsts["originColumn"].id, id);
             }
-            else if (col.children.length == 2) {
-                if (col.children[1].getAttribute("name") == noturn) {
-                    moveBlock(id, sugsts);
-                    removeSegustions();
-                    // sugsts["originColumn"].removeChild(sugsts["originColumn"].children[1]);
-                    diceValueHandler(sugsts["originColumn"].id, id);
-                } else {
-                    moveBlock(id, sugsts);
-                    removeSegustions();
-                    diceValueHandler(sugsts["originColumn"].id, id);
-                }
+            else{
+                removeSegustions();
             }
-            else {
-                if (col.children[1].getAttribute("name") == turn) {
-                    moveBlock(id, sugsts);
-                    removeSegustions();
-                    diceValueHandler(sugsts["originColumn"].id, id);
-                }
-            }
-            turnSeter();
+        } else {
+            findWinner();
         }
+        turnSeter();
+        
+
     });
 }
-let outedBlockW = new Stack();
-let outedBlockB = new Stack();
-function outBlock(col) {
+function sendoutBlock(col) {
     if (col.children.length > 1) {
         if (whiteT) {
             outedBlockW.add(col.children[1]);
@@ -432,13 +463,26 @@ function outBlock(col) {
         col.removeChild(col.children[1]);
     }
 }
-function findWinner(){
-    if(outedBlockW.size()==15){
-        window.alert("white win !!");
+function findWinner() {
+    if (outedBlockW.size == 15) {
+        window.alert("GAME IS FINISH WHITE IS WIN !!");
         return true;
-    }else if(outedBlockB.siz()==15){
-        window.alert("black win !!");
+    } else if (outedBlockB.siz == 15) {
+        window.alert("GAME IS FINISH BLACK IS WIN !!");
         return true;
     }
     return false;
 }
+outBtn.addEventListener("click", () => {
+    if (outBtn.classList.contains("outSug")) {
+        sendoutBlock(sugsts["originColumn"]);
+        outBtn.classList.remove("outSug");
+        removeSegustions();
+        if (whiteT) {
+            diceValueHandler(sugsts["originColumn"].id, "column25");
+        } else {
+            diceValueHandler(sugsts["originColumn"].id, "column0");
+        }
+        turnSeter();
+    }
+});
