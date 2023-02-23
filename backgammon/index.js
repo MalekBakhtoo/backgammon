@@ -1,3 +1,5 @@
+document.body.style.zoom = "90%";
+
 let whiteT = true;
 let turn = "white";
 let noturn = "black";
@@ -114,7 +116,7 @@ for (i = 0; i < 15; i++) {
     whiteBlock.setAttribute("class", "block");
     wBlock.add(whiteBlock);
 }
-// firstDesin();
+firstDesin();
 function firstDesin() {
     let item = [1, 12, 17, 19];
     for (j = 0; j < 4; j++) {
